@@ -1,0 +1,40 @@
+<div class="auth-page">
+  @if (demoGateway) {
+    <section class="gateway-shell" aria-labelledby="gateway-title">
+      <div class="auth-brand"><span class="auth-mark"><i></i><i></i><i></i></span><span><strong>AGYVEX</strong><small>TECHNOLOGIES</small></span></div>
+      <div class="gateway-heading"><p class="auth-eyebrow"><span></span> FRONTEND DEMO GATEWAY</p><h1 id="gateway-title">Where would you like to go?</h1><p>Choose a workspace to preview the AGYVEX experience. This gateway is a frontend demonstration and is not connected to an account or backend.</p></div>
+      <div class="role-grid">@for (role of roles; track role.title) { <article class="role-card" [class.selected]="selectedRole === role.title"><div class="role-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path [attr.d]="role.icon"></path></svg></div><div><span class="role-kicker">{{ role.title }}</span><h2>{{ role.title === 'AGYVEX TEAM' ? 'Internal workspace' : role.title.toLowerCase() + ' workspace' }}</h2><p>{{ role.description }}</p></div><button type="button" class="role-action" (click)="selectRole(role.title)" aria-label="Continue to {{ role.title }} demo">{{ selectedRole === role.title ? 'Selected' : 'Continue' }} <span>→</span></button></article> }</div>
+      <a class="auth-back-link" href="/sign-in">← Back to sign in</a>
+    </section>
+  } @else if (view === 'create-account') {
+    <section class="auth-centered" aria-labelledby="create-title">
+      <div class="auth-brand"><span class="auth-mark"><i></i><i></i><i></i></span><span><strong>AGYVEX</strong><small>TECHNOLOGIES</small></span></div>
+      <div class="auth-heading"><p class="auth-eyebrow"><span></span> GET STARTED</p><h1 id="create-title">Create your AGYVEX account.</h1><p>Choose the path that best describes how you will use AGYVEX.</p></div>
+      <div class="account-options"><a class="account-option" href="mailto:hello@agyvex.com?subject=Register%20Your%20School"><span class="option-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V8l7-4 7 4v13M8 11h2m4 0h2M8 15h2m4 0h2M10 21v-4h4v4" /></svg></span><span><strong>Register Your School</strong><small>For schools that want to use AGYVEX EDU.</small></span><b>↗</b></a><a class="account-option" href="mailto:hello@agyvex.com?subject=Join%20a%20School"><span class="option-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 20v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 4 18.5V20m6-8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm5-5h5m-2.5-2.5v5" /></svg></span><span><strong>Join a School</strong><small>For teachers and students who have been invited by their school.</small></span><b>↗</b></a></div>
+      <p class="auth-switch">Already have an account? <a href="/sign-in">Sign In</a></p>
+    </section>
+  } @else if (view === 'forgot-password') {
+    <section class="auth-centered compact-auth" aria-labelledby="reset-title">
+      <div class="auth-brand"><span class="auth-mark"><i></i><i></i><i></i></span><span><strong>AGYVEX</strong><small>TECHNOLOGIES</small></span></div>
+      <div class="auth-heading"><p class="auth-eyebrow"><span></span> ACCOUNT ACCESS</p><h1 id="reset-title">Reset your password.</h1><p>Enter your email address and we’ll help you reset your password.</p></div>
+      <form class="auth-form" (ngSubmit)="submitReset()" novalidate>
+        <div class="field"><label for="reset-email">Email address</label><input id="reset-email" name="resetEmail" type="email" [(ngModel)]="email" autocomplete="email" placeholder="you@school.com" required [attr.aria-invalid]="formSubmitted && (!email || !isValidEmail(email))" />@if (formSubmitted && !email) { <small class="field-error">Enter your email address.</small> } @else if (formSubmitted && !isValidEmail(email)) { <small class="field-error">Enter a valid email address.</small> }</div>
+        <button class="auth-button" type="submit">Continue <span>→</span></button>
+      </form>
+      <a class="auth-switch back-to-auth" href="/sign-in">← Back to Sign In</a>
+    </section>
+  } @else {
+    <section class="auth-centered sign-in-auth" aria-labelledby="sign-in-title">
+      <div class="auth-brand"><span class="auth-mark"><i></i><i></i><i></i></span><span><strong>AGYVEX</strong><small>TECHNOLOGIES</small></span></div>
+      <div class="auth-heading"><p class="auth-eyebrow"><span></span> ACCOUNT ACCESS</p><h1 id="sign-in-title">Welcome back.</h1><p>Sign in to your AGYVEX account to continue.</p></div>
+      <form class="auth-form" (ngSubmit)="submitSignIn()" novalidate>
+        <div class="field"><label for="sign-in-email">Email address</label><input id="sign-in-email" name="email" type="email" [(ngModel)]="email" autocomplete="email" placeholder="you@school.com" required [attr.aria-invalid]="formSubmitted && (!email || !isValidEmail(email))" />@if (formSubmitted && !email) { <small class="field-error">Enter your email address.</small> } @else if (formSubmitted && !isValidEmail(email)) { <small class="field-error">Enter a valid email address.</small> }</div>
+        <div class="field"><div class="field-label-row"><label for="sign-in-password">Password</label><a href="/forgot-password">Forgot password?</a></div><div class="password-input"><input id="sign-in-password" name="password" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" autocomplete="current-password" placeholder="Enter your password" required [attr.aria-invalid]="formSubmitted && !password" /><button type="button" (click)="showPassword = !showPassword" [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.4-5 9.5-5 9.5 5 9.5 5-3.4 5-9.5 5-9.5-5-9.5-5Zm9.5 2.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" /></svg></button></div>@if (formSubmitted && !password) { <small class="field-error">Enter your password.</small> }</div>
+        <label class="remember-field"><input type="checkbox" name="remember" [(ngModel)]="rememberMe" /><span>Remember me</span></label>
+        <button class="auth-button" type="submit">Sign In <span>→</span></button>
+      </form>
+      <p class="demo-note"><span>i</span> Frontend demo only. No account or backend connection is active yet.</p>
+      <p class="auth-switch">Don’t have an account? <a href="/create-account">Create an account</a></p>
+    </section>
+  }
+</div>
