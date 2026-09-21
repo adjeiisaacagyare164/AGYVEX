@@ -46,7 +46,7 @@ ng test
 
 ## Deploying to Vercel
 
-This project includes `vercel.json` with the Angular production build settings. In Vercel, use the repository root as the project root and leave the framework as `Other` or `Angular`. The configured build command is `npm run build`, and the output directory is `dist/agyvex/browser`.
+This project includes `vercel.json` with the Angular production build settings. In Vercel, use the repository root as the project root. The configured install command is `npm ci`, the build command is `npm run build`, and the output directory is `dist/agyvex/browser`. SPA rewrites are included so `/products/agyvex-edu` works on a direct visit or page refresh.
 
 ## Running end-to-end tests
 
