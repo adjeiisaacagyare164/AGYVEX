@@ -6,12 +6,13 @@ import { AgyvexEdu } from './agyvex-edu/agyvex-edu';
 import { Products } from './products/products';
 import { About } from './about/about';
 import { Auth } from './auth/auth';
+import { SchoolAdmin } from './dashboard/school-admin/school-admin';
 
 @Component({
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',
-  imports: [NgClass, AgyvexEdu, Products, About, Auth],
+  imports: [NgClass, AgyvexEdu, Products, About, Auth, SchoolAdmin],
 })
 export class App {
   protected readonly isDarkMode = signal(false);
@@ -20,6 +21,7 @@ export class App {
   protected readonly isProductsPage = signal(false);
   protected readonly isAboutPage = signal(false);
   protected readonly isAuthPage = signal(false);
+  protected readonly isDashboardPage = signal(false);
 
   protected readonly focusAreas = [
     { icon: '◈', title: 'Software', text: 'Powerful software and digital products designed to solve real-world problems.' },
@@ -50,12 +52,14 @@ export class App {
     this.isProductsPage.set(router.url === '/products');
     this.isAboutPage.set(router.url === '/about');
     this.isAuthPage.set(['/sign-in', '/create-account', '/forgot-password'].includes(router.url));
+    this.isDashboardPage.set(router.url === '/dashboard/school-admin');
     router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
       const url = (event as NavigationEnd).urlAfterRedirects;
       this.isEduPage.set(url === '/products/agyvex-edu');
       this.isProductsPage.set(url === '/products');
       this.isAboutPage.set(url === '/about');
       this.isAuthPage.set(['/sign-in', '/create-account', '/forgot-password'].includes(url));
+      this.isDashboardPage.set(url === '/dashboard/school-admin');
     });
     if (typeof localStorage !== 'undefined') {
       this.isDarkMode.set(localStorage.getItem('agyvex-theme') === 'dark');
